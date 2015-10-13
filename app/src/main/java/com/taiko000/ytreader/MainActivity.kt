@@ -2,11 +2,6 @@ package com.taiko000.ytreader
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.view.View
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.WebViewClient
@@ -15,21 +10,22 @@ import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
-import kotlinx.android.synthetic.activity_main.*
+import kotlinx.android.synthetic.activity_main.webView
+import kotlinx.android.synthetic.activity_main.youtube_view
 
 
 public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener
 {
     val RECOVERY_DIALOG_REQUEST = 10;
     val API_KEY = "AIzaSyBEH3_UJG3XIAfOBU7BQ2vMcR5L1I3jQFg";
+    var ytv : YouTubePlayerView? = null
 
-
-    val VIDEO_ID = "tttG6SdnCd4";
+    private var videoId: String? = "tttG6SdnCd4" // some default video
 
     override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, player: YouTubePlayer, wasRestored: Boolean)
     {
         if (!wasRestored) {
-            player.cueVideo(VIDEO_ID);
+            player.cueVideo(videoId);
         }
 
     }
@@ -45,22 +41,31 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
         setContentView(R.layout.activity_main)
+        ytv = youtube_view as YouTubePlayerView
 
-        //setSupportActionBar(toolbar)
+        if (Intent.ACTION_SEND.equals(intent.action) && intent.type != null) {
+            if ("text/plain".equals(intent.type)) {
+                val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                videoId = sharedText?.split("/")?.last()
+            }
 
-        fab.setOnClickListener( {view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()  })
+            //setSupportActionBar(toolbar)
 
-        youtube_view.initialize(API_KEY, this)
-
-
-        webView.setWebViewClient(WebViewClient())
-        webView.loadUrl("https://www.google.com/ncr")
+            //        fab.setOnClickListener( {view ->
+            //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()  })
 
 
+            ytv?.initialize(API_KEY, this)
+
+
+            webView.setWebViewClient(WebViewClient())
+            webView.loadUrl("https://www.google.com/ncr")
+
+
+        }
     }
 
     override fun onBackPressed() {
@@ -96,7 +101,7 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         if (requestCode == RECOVERY_DIALOG_REQUEST) {
             // Retry initialization if user performed a recovery action
-            youtube_view.initialize(API_KEY, this);
+            ytv?.initialize(API_KEY, this);
         }
 
     }
