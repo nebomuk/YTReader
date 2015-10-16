@@ -77,7 +77,7 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
 
             val url = Prefs.getString("url","https://www.google.com/ncr")
             webView.loadUrl(url)
-        
+
     }
 
     override fun onBackPressed() {
