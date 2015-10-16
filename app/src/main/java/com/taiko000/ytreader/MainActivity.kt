@@ -19,13 +19,17 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
     val RECOVERY_DIALOG_REQUEST = 10;
     val API_KEY = "AIzaSyBEH3_UJG3XIAfOBU7BQ2vMcR5L1I3jQFg";
     var ytv : YouTubePlayerView? = null
+    var mPlayer : YouTubePlayer? = null
 
     private var videoId: String? = "tttG6SdnCd4" // some default video
 
     override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, player: YouTubePlayer, wasRestored: Boolean)
     {
         if (!wasRestored) {
+
+            mPlayer = player;
             player.cueVideo(videoId);
+            player.setPlaybackEventListener(PlaybackEventListener());
         }
 
     }
@@ -95,6 +99,12 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause()
+    {
+        super.onPause()
+
     }
 
 
