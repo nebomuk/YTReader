@@ -29,7 +29,7 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
         if (!wasRestored) {
 
             mPlayer = player;
-            val pos = Prefs.getInt("currentTimeMillis",-1);
+            val  pos = Prefs.getInt("currentTimeMillis",-1);
             if (pos != -1)
             {
                 player.cueVideo(videoId,pos);
@@ -57,13 +57,13 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.activity_main)
-        ytv = youtube_view as YouTubePlayerView
 
         if (Intent.ACTION_SEND.equals(intent.action) && intent.type != null) {
             if ("text/plain".equals(intent.type)) {
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
                 videoId = sharedText?.split("/")?.last()
             }
+        }
 
             //setSupportActionBar(toolbar)
 
@@ -71,14 +71,14 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
             //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()  })
 
 
-            ytv?.initialize(API_KEY, this)
+            youtube_view.initialize(API_KEY, this)
 
 
             webView.setWebViewClient(WebViewClient())
             webView.loadUrl("https://www.google.com/ncr")
 
 
-        }
+
     }
 
     override fun onBackPressed() {
@@ -121,7 +121,7 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         if (requestCode == RECOVERY_DIALOG_REQUEST) {
             // Retry initialization if user performed a recovery action
-            ytv?.initialize(API_KEY, this);
+            youtube_view.initialize(API_KEY, this);
         }
 
     }
