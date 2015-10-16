@@ -10,6 +10,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.activity_main.webView
 import kotlinx.android.synthetic.activity_main.youtube_view
 
@@ -28,7 +29,15 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
         if (!wasRestored) {
 
             mPlayer = player;
-            player.cueVideo(videoId);
+            val pos = Prefs.getInt("currentTimeMillis",-1);
+            if (pos != -1)
+            {
+                player.cueVideo(videoId,pos);
+            }
+            else
+            {
+                player.cueVideo(videoId);
+            }
             player.setPlaybackEventListener(PlaybackEventListener());
         }
 
@@ -79,6 +88,7 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
         } else {
             super.onBackPressed()
         }
+        Prefs.putInt("currentTimeMillis", mPlayer!!.currentTimeMillis);
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
