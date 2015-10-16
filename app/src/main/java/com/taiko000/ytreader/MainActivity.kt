@@ -74,10 +74,10 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
 
 
             webView.setWebViewClient(WebViewClient())
-            webView.loadUrl("https://www.google.com/ncr")
 
-
-
+            val url = Prefs.getString("url","https://www.google.com/ncr")
+            webView.loadUrl(url)
+        
     }
 
     override fun onBackPressed() {
@@ -87,7 +87,6 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
         } else {
             super.onBackPressed()
         }
-        Prefs.putInt("currentTimeMillis", mPlayer!!.currentTimeMillis);
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -113,6 +112,9 @@ public class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedLi
     override fun onPause()
     {
         super.onPause()
+        Prefs.putInt("currentTimeMillis", mPlayer!!.currentTimeMillis)
+        Prefs.putString("url", webView.url)
+
 
     }
 
