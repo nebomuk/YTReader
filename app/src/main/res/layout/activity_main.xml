@@ -22,17 +22,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_main"
-        tools:context=".MainActivity">
+        <com.mobidevelop.spl.widget.SplitPaneLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:spl="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            spl:orientation="vertical"
+            spl:splitterSize="16dip"
+            spl:splitterPosition="33%"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:showIn="@layout/activity_main"
+            tools:context=".MainActivity"
+            >
 
         <com.google.android.youtube.player.YouTubePlayerView
             android:id="@+id/youtube_view"
@@ -49,7 +50,7 @@
             android:id="@+id/webView"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.8"/>
-    </LinearLayout>
+        </com.mobidevelop.spl.widget.SplitPaneLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
